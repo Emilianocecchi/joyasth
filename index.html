@@ -1503,12 +1503,7 @@
         <!-- Filtros -->
         <div class="product-filters fade-in">
             <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
-            <button class="filter-btn" onclick="filterProducts('aros')">Aros</button>
             <button class="filter-btn" onclick="filterProducts('arosabridores')">Aros Abridores</button>
-            <button class="filter-btn" onclick="filterProducts('anillos')">Anillos</button>
-            <button class="filter-btn" onclick="filterProducts('collares')">Collares</button>
-            <button class="filter-btn" onclick="filterProducts('brazaletes')">Brazaletes</button>
-            <button class="filter-btn" onclick="filterProducts('conjuntos')">Conjuntos</button>
         </div>
 
         <div class="product-grid" id="productGrid">
@@ -1548,54 +1543,12 @@
         <h2 class="section-title fade-in">Nuestras Categorías</h2>
         <p class="section-subtitle fade-in">Descubre nuestra amplia variedad de joyas de plata 925</p>
         <div class="category-grid">
-            <div class="category-card fade-in" onclick="filterProducts('aros')">
-                <div class="category-icon">
-                    <i class="fas fa-circle"></i>
-                </div>
-                <h3>Aros</h3>
-                <p>Diseños únicos y elegantes para cada ocasión</p>
-            </div>
             <div class="category-card fade-in" onclick="filterProducts('arosabridores')">
                 <div class="category-icon">
                     <i class="fas fa-dot-circle"></i>
                 </div>
                 <h3>Aros Abridores</h3>
                 <p>Especiales para primeras perforaciones</p>
-            </div>
-            <div class="category-card fade-in" onclick="filterProducts('anillos')">
-                <div class="category-icon">
-                    <i class="fas fa-ring"></i>
-                </div>
-                <h3>Anillos</h3>
-                <p>Elegancia en cada dedo, desde clásicos hasta modernos</p>
-            </div>
-            <div class="category-card fade-in" onclick="filterProducts('conjuntos')">
-                <div class="category-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <h3>Conjuntos</h3>
-                <p>Combinaciones perfectas que realzan tu belleza</p>
-            </div>
-            <div class="category-card fade-in" onclick="filterProducts('brazaletes')">
-                <div class="category-icon">
-                    <i class="fas fa-link"></i>
-                </div>
-                <h3>Brazaletes</h3>
-                <p>Estilo y sofisticación para tu muñeca</p>
-            </div>
-            <div class="category-card fade-in" onclick="filterProducts('collares')">
-                <div class="category-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <h3>Collares</h3>
-                <p>Para cada ocasión, desde casual hasta elegante</p>
-            </div>
-            <div class="category-card fade-in" onclick="filterProducts('dijes')">
-                <div class="category-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-                <h3>Dijes</h3>
-                <p>Personaliza tu estilo con nuestros dijes únicos</p>
             </div>
         </div>
     </section>
@@ -1780,158 +1733,9 @@
         const products = [
             {
                 id: 1,
-                name: "Anillo Solitario Plata 925",
-                category: "anillos",
-                price: 15000,
-                originalPrice: 18000,
-                description: "Elegante anillo solitario de plata 925 con circón cúbico. Perfecto para ocasiones especiales.",
-                featured: true,
-                isNew: true,
-                stock: 3,
-                image: "https://mcusercontent.com/386ca740d7cf02ec261f47f33/images/91557983-f763-3186-394a-86b688a9aebb.png",
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 2,
-                name: "Cadena con Dije Corazón",
-                category: "collares",
-                price: 28900,
-                originalPrice: 32000,
-                description: "Hermosa cadena de plata 925 con dije de corazón. Incluye certificado de autenticidad.",
-                featured: true,
-                isSale: true,
-                stock: 2,
-                image: "https://mcusercontent.com/386ca740d7cf02ec261f47f33/images/d90856e9-cb74-2c8b-88c8-5920376a53a6.png",
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 3,
-                name: "Aros Aro Clásicos",
-                category: "aros",
-                price: 18700,
-                description: "Aros aro clásicos de plata 925. Un básico que no puede faltar en tu joyero.",
-                featured: true,
-                stock: 5,
-                image: "https://mcusercontent.com/386ca740d7cf02ec261f47f33/images/4165370b-6fcc-b78d-947a-057f2acc67bf.png",
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 4,
-                name: "Collar Cubo Cristal",
-                category: "collares",
-                price: 15400,
-                description: "Moderno collar con dije de cubo en cristal facetado. Brillo garantizado.",
-                featured: true,
-                stock: 4,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 5,
-                name: "Aros Colgantes Perlas",
-                category: "aros",
-                price: 9800,
-                originalPrice: 12000,
-                description: "Delicados aros colgantes con perlas cultivadas. Elegancia pura.",
-                featured: false,
-                isSale: true,
-                stock: 1,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 6,
-                name: "Set Pulseras Múltiples",
-                category: "brazaletes",
-                price: 22300,
-                description: "Set de 3 pulseras texturizadas en diferentes diseños. Combínalas como quieras.",
-                featured: true,
-                isNew: true,
-                stock: 3,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 7,
-                name: "Anillo Infinito",
-                category: "anillos",
-                price: 13500,
-                description: "Romántico anillo con diseño de infinito. Símbolo de amor eterno.",
-                featured: false,
-                stock: 6,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 8,
-                name: "Conjunto Completo Elegance",
-                category: "conjuntos",
-                price: 45000,
-                originalPrice: 52000,
-                description: "Conjunto completo: collar, aros y anillo. Perfecto para ocasiones especiales.",
-                featured: true,
-                isSale: true,
-                stock: 2,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 9,
-                name: "Aros Mariposa",
-                category: "aros",
-                price: 16800,
-                description: "Delicados aros con forma de mariposa. Perfectos para looks románticos.",
-                featured: false,
-                isNew: true,
-                stock: 4,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 10,
-                name: "Brazalete Rígido Grabado",
-                category: "brazaletes",
-                price: 24900,
-                description: "Brazalete rígido con grabados florales. Una pieza statement única.",
-                featured: false,
-                stock: 3,
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 11,
-                name: "Dije y Cadena Estrella",
-                category: "collares",
-                price: 19500,
-                description: "Elegante cadena de plata 925 con dije de estrella. Perfecto para uso diario.",
-                featured: true,
-                isNew: true,
-                stock: 1,
-                image: "https://mcusercontent.com/386ca740d7cf02ec261f47f33/images/982ec867-8fda-98d8-cd15-f1151f39b472.png",
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 12,
-                name: "Set de Pulseras Delicadas",
-                category: "brazaletes",
-                price: 26800,
-                description: "Hermoso set de pulseras delicadas de plata 925. Diferentes diseños para combinar.",
-                featured: true,
-                stock: 2,
-                image: "https://mcusercontent.com/386ca740d7cf02ec261f47f33/images/0ceebf49-67f6-35de-7076-47d781d6a58f.png",
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 13,
-                name: "Set Completo Premium",
-                category: "conjuntos",
-                price: 52000,
-                originalPrice: 58000,
-                description: "Set completo: anillo, cadena, pulsera y aros. La combinación perfecta para ocasiones especiales.",
-                featured: true,
-                isSale: true,
-                stock: 1,
-                image: "https://mcusercontent.com/386ca740d7cf02ec261f47f33/images/898772de-139c-59f9-03a6-0fad3bc496b3.png",
-                mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-            },
-            {
-                id: 14,
                 name: "Aro Abridor Corazon Verde",
                 category: "arosabridores",
-                price: 9800,
+                price: 6500,
                 description: "Aro abridor con diseño corazón verde.",
                 featured: true,
                 isNew: true,
@@ -1940,10 +1744,10 @@
                 mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
             },
             {
-                id: 15,
+                id: 2,
                 name: "Aro Abridor Corazones Plateado",
                 category: "arosabridores",
-                price: 9800,
+                price: 6500,
                 description: "Aro abridor corazones plateado.",
                 featured: true,
                 isNew: true,
@@ -1952,10 +1756,10 @@
                 mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
             },
             {
-                id: 16,
+                id: 3,
                 name: "Aro Abridor Corona Plata",
                 category: "arosabridores",
-                price: 9800,
+                price: 6500,
                 description: "Aro abridor corona en plata.",
                 featured: true,
                 isNew: true,
@@ -1964,10 +1768,10 @@
                 mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
             },
             {
-                id: 17,
+                id: 4,
                 name: "Aro Abridor Corona Verde",
                 category: "arosabridores",
-                price: 9800,
+                price: 6500,
                 description: "Aro abridor corona verde.",
                 featured: true,
                 isNew: true,
@@ -1976,10 +1780,10 @@
                 mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
             },
             {
-                id: 18,
+                id: 5,
                 name: "Aro Abridor Cruz Blanco",
                 category: "arosabridores",
-                price: 9800,
+                price: 6500,
                 description: "Aro abridor cruz blanco.",
                 featured: true,
                 isNew: true,
