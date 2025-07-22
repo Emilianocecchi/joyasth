@@ -3,7 +3,7 @@ name: Optimize Images
 on:
   push:
     branches:
-      - joyasth
+      - main
   workflow_dispatch:
 
 jobs:
