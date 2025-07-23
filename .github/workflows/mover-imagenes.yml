@@ -41,3 +41,4 @@ jobs:
           git add -u
           git commit -m "Movidas imágenes a la carpeta /images" || echo "No hay cambios"
           git push
+        
