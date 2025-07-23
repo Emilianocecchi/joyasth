@@ -1,4 +1,5 @@
 name: Mover imágenes a la carpeta /images
+
 on:
   push:
     paths:
@@ -33,7 +34,7 @@ jobs:
             done
           done
 
-        - name: Hacer commit de los cambios
+      - name: Hacer commit de los cambios
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
@@ -42,5 +43,3 @@ jobs:
             git commit -m "Movidas imágenes a la carpeta /images"
             git push
           )
-
-        
