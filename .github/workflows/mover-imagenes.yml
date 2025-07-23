@@ -1,5 +1,4 @@
 name: Mover imágenes a la carpeta /images
-
 on:
   push:
     paths:
@@ -8,6 +7,7 @@ on:
       - '**.png'
       - '**.gif'
       - '**.webp'
+  workflow_dispatch:
 
 jobs:
   organizar:
