@@ -33,12 +33,14 @@ jobs:
             done
           done
 
-      - name: Hacer commit de los cambios
+        - name: Hacer commit de los cambios
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add images
-          git add -u
-          git commit -m "Movidas imágenes a la carpeta /images" || echo "No hay cambios"
-          git push
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add images || true
+          git diff --cached --quiet && echo "Sin cambios, no se hace commit" || (
+            git commit -m "Movidas imágenes a la carpeta /images"
+            git push
+          )
+
         
