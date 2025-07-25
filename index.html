@@ -556,6 +556,36 @@
             color: white;
         }
 
+        .filter-select {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .load-more-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .load-more-btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 25px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: var(--accent-color);
+        }
+
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1504,10 +1534,15 @@
         <div class="product-filters fade-in">
             <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
             <button class="filter-btn" onclick="filterProducts('arosabridores')">Aros Abridores</button>
+            <select id="shapeFilter" class="filter-select" onchange="applyFilters()"></select>
+            <select id="colorFilter" class="filter-select" onchange="applyFilters()"></select>
         </div>
 
         <div class="product-grid" id="productGrid">
             <!-- Los productos se cargarán dinámicamente aquí -->
+        </div>
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreProducts()">Cargar más</button>
         </div>
     </section>
 
@@ -3460,9 +3495,43 @@
                 mercadoPagoLink: "https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
             },
         ];
+
+        const shapeSet = new Set();
+        const colorSet = new Set();
+        products.forEach(p => {
+            const parts = p.name.replace('Aro Abridor ', '').split(' ');
+            if (parts.length >= 2) {
+                p.color = parts.pop();
+                p.shape = parts.join(' ');
+                shapeSet.add(p.shape);
+                colorSet.add(p.color);
+            } else {
+                p.shape = '';
+                p.color = '';
+            }
+        });
+
+        const shapeOptions = Array.from(shapeSet).sort();
+        const colorOptions = Array.from(colorSet).sort();
+
         // Variables globales
         let cart = [];
         let currentFilter = 'all';
+        let shapeFilterValue = 'all';
+        let colorFilterValue = 'all';
+        let filteredProducts = [];
+        let currentOffset = 0;
+        const initialLoadCount = 5;
+        const loadMoreCount = 20;
+        const imageObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, { rootMargin: '100px' });
         let timerMinutes = 2;
         let timerSeconds = 14;
         let timerHours = 2;
@@ -3479,7 +3548,8 @@
 
             // Inicializar componentes
             initializeAnimations();
-            loadProducts();
+            populateFilters();
+            initializeProducts();
             updateCartDisplay();
             setupScrollEffects();
             setupMobileMenu();
@@ -3541,24 +3611,45 @@
             }, 100);
         }
 
-        // Cargar productos con mejoras para conversión
-        function loadProducts(category = 'all') {
+        // Obtener productos filtrados
+        function getFilteredProducts() {
+            let items = currentFilter === 'all'
+                ? products.filter(p => p.featured)
+                : products.filter(p => p.category === currentFilter);
+            if (shapeFilterValue !== 'all') {
+                items = items.filter(p => p.shape === shapeFilterValue);
+            }
+            if (colorFilterValue !== 'all') {
+                items = items.filter(p => p.color === colorFilterValue);
+            }
+            return items;
+        }
+
+        // Inicializar productos
+        function initializeProducts(category = 'all') {
+            currentFilter = category;
+            filteredProducts = getFilteredProducts();
+            currentOffset = 0;
+            document.getElementById('productGrid').innerHTML = '';
+            loadMoreProducts();
+            updateFilterButtons(category);
+        }
+
+        // Cargar más productos
+        function loadMoreProducts() {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            
-            const filteredProducts = category === 'all' 
-                ? products.filter(p => p.featured) 
-                : products.filter(p => p.category === category);
-            
-            filteredProducts.forEach(product => {
+            const count = currentOffset === 0 ? initialLoadCount : loadMoreCount;
+            const items = filteredProducts.slice(currentOffset, currentOffset + count);
+
+            items.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'product-card fade-in';
-                
-                const badge = product.isNew ? 'product-new">NUEVO' : 
-                             product.isSale ? 'product-sale">OFERTA' : 
+
+                const badge = product.isNew ? 'product-new">NUEVO' :
+                             product.isSale ? 'product-sale">OFERTA' :
                              product.featured ? '">DESTACADO' : '';
-                
-                const priceDisplay = product.originalPrice ? 
+
+                const priceDisplay = product.originalPrice ?
                     `<span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">${product.originalPrice.toLocaleString()}</span><br>
                      <span style="color: var(--danger-color); font-size: 1.1rem; font-weight: bold;">${product.price.toLocaleString()}</span>
                      <div style="background: var(--success-color); color: white; padding: 1px 6px; border-radius: 8px; display: inline-block; font-size: 0.65rem; margin-top: 3px;">
@@ -3566,15 +3657,14 @@
                      </div>` :
                     `${product.price.toLocaleString()}`;
 
-                // Indicador de stock bajo
-                const stockIndicator = product.stock <= 3 ? 
+                const stockIndicator = product.stock <= 3 ?
                     `<div class="stock-indicator">Quedan ${product.stock}</div>` : '';
 
                 card.innerHTML = `
                     ${badge ? `<div class="product-badge ${badge}</div>` : ''}
                     ${stockIndicator}
                     <div class="product-image">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" loading="lazy">` : ''}
+                        ${product.image ? `<img data-src="${product.image}" alt="${product.name}" class="lazy-image">` : ''}
                     </div>
                     <div class="product-info">
                         <h3>${product.name}</h3>
@@ -3593,19 +3683,45 @@
                     </div>
                 `;
                 grid.appendChild(card);
+                const img = card.querySelector('img.lazy-image');
+                if (img) imageObserver.observe(img);
             });
-            
-            // Update filter buttons
-            updateFilterButtons(category);
-            
-            // Trigger animations
+
+            currentOffset += items.length;
+            updateLoadMoreVisibility();
+
             setTimeout(() => {
                 document.querySelectorAll('.product-card').forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, index * 100);
+                    if (index >= currentOffset - items.length) {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 100);
+                    }
                 });
             }, 100);
+        }
+
+        function updateLoadMoreVisibility() {
+            const btn = document.getElementById('loadMoreBtn');
+            if (!btn) return;
+            btn.style.display = currentOffset < filteredProducts.length ? 'inline-block' : 'none';
+        }
+
+        function populateFilters() {
+            const shapeSelect = document.getElementById('shapeFilter');
+            const colorSelect = document.getElementById('colorFilter');
+            if (!shapeSelect || !colorSelect) return;
+
+            shapeSelect.innerHTML = '<option value="all">Todas las formas</option>' +
+                shapeOptions.map(s => `<option value="${s}">${s}</option>`).join('');
+            colorSelect.innerHTML = '<option value="all">Todos los colores</option>' +
+                colorOptions.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        function applyFilters() {
+            shapeFilterValue = document.getElementById('shapeFilter').value;
+            colorFilterValue = document.getElementById('colorFilter').value;
+            initializeProducts(currentFilter);
         }
 
         // Actualizar botones de filtro
@@ -3636,7 +3752,7 @@
                 
                 // Recargar productos para mostrar stock actualizado
                 setTimeout(() => {
-                    loadProducts(currentFilter);
+                    initializeProducts(currentFilter);
                 }, 500);
             }
             
@@ -3726,7 +3842,7 @@ Precio: $${product.price.toLocaleString()}${urgencyText}
         // Filtrar productos
         function filterProducts(category) {
             currentFilter = category;
-            loadProducts(category);
+            initializeProducts(category);
             
             // Scroll suave a la sección de productos
             document.getElementById('productos').scrollIntoView({ 
